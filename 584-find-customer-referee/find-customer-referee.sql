@@ -1,0 +1,1 @@
+select t.name from ( select s.name from Customer s where s.referee_id!=2 || s.referee_id is null) as t;
