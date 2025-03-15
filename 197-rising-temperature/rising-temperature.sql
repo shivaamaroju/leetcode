@@ -1,0 +1,1 @@
+select w2.id from Weather w1 join Weather w2 on W2.recordDate=date_add(w1.recordDate, interval 1 day) where w2.temperature>w1.temperature;
