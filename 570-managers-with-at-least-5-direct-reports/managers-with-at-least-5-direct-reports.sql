@@ -1,0 +1,1 @@
+select name from Employee where id in (select t.managerId from(select m.managerId,count(m.managerId) as cc from  Employee m group by m.managerId ) t where t.cc>=5 );
