@@ -1,0 +1,2 @@
+# Write your MySQL query statement below
+select round(sum(case when t.x=t.y then 1 else 0 end)*100/count(*),2) as immediate_percentage  from (select customer_id , min(order_date) as x ,min(customer_pref_delivery_date) as y from Delivery    group by customer_id order by order_date) as t;
