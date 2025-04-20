@@ -1,7 +1,7 @@
 class Solution {
     public boolean hasAlternatingBits(int n) {
         int x=n&1;
-        System.out.println(x);
+        // System.out.println(x);
         while(n>0){
             if(x!=(n&1))return false;
             n=n>>1;
