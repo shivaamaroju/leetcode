@@ -1,38 +1,18 @@
 class Solution {
     public List<Boolean> canMakePaliQueries(String s, int[][] q) {
-        HashMap<Character, Integer> mp = new HashMap<>();
-        List<HashMap<Character, Integer>> l = new ArrayList<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            mp.put(s.charAt(i), mp.getOrDefault(s.charAt(i), 0) + 1);
-            l.add(new HashMap<>(mp));
-        }
-
-        List<Boolean> ll = new ArrayList<>();
-        for (int i = 0; i < q.length; i++) {
-            int le = q[i][0];
-            int r = q[i][1];
-            int o = q[i][2];
-
-            HashMap<Character, Integer> mp3 = le > 0 ? l.get(le - 1) : new HashMap<>();
-            HashMap<Character, Integer> mp4 = l.get(r);
-
-            HashMap<Character, Integer> ans = new HashMap<>();
-            for (var ss : mp4.entrySet()) {
-                char key = ss.getKey();
-                int freq = ss.getValue() - mp3.getOrDefault(key, 0);
-                if (freq > 0) ans.put(key, freq);
-            }
-
-            int c = 0;
-            for (var ss : ans.entrySet()) {
-                if (ss.getValue() % 2 != 0) c++;
-            }
-
-            if (c / 2 <= o) ll.add(true);
-            else ll.add(false);
-        }
-
-        return ll;
+       int x[]=new int[s.length()+1];
+       for(int i=0;i<s.length();i++){
+        x[i+1]=x[i]^(1<<(s.charAt(i)-'a'));
+       }
+       List<Boolean>  l=new ArrayList<>();
+       for(var ss:q){
+        int wl=ss[0];
+        int r=ss[1];
+        int xx=x[r+1]^x[wl];
+        int mask=Integer.bitCount(xx);
+        if(mask/2>ss[2])l.add(false);
+        else l.add(true);
+       }
+       return l;
     }
 }
