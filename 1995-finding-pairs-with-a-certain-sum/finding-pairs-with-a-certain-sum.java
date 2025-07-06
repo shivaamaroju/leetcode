@@ -1,48 +1,47 @@
-class FindSumPairs {
-TreeMap<Integer,Integer> mp=new TreeMap<>();
-TreeMap<Integer,Integer> mp2=new TreeMap<>();
+import java.util.*;
 
-int a[],b[];
+class FindSumPairs {
+    private final int[] a, b;
+    private final Map<Integer, Integer> freqA = new HashMap<>();
+    private final Map<Integer, Integer> freqB = new HashMap<>();
+
     public FindSumPairs(int[] nums1, int[] nums2) {
-        a=nums1;
-        b=nums2;
-        for(var s:nums1){
-            mp.put(s,mp.getOrDefault(s,0)+1);
+        this.a = nums1;
+        this.b = nums2;
+
+        for (int num : nums1) {
+            freqA.put(num, freqA.getOrDefault(num, 0) + 1);
         }
-        for(var s:nums2){
-            mp2.put(s,mp2.getOrDefault(s,0)+1);
+
+        for (int num : nums2) {
+            freqB.put(num, freqB.getOrDefault(num, 0) + 1);
         }
     }
-    
+
     public void add(int index, int val) {
-         int  t=b[index];
-         b[index]+=val;
-         int c=mp2.get(t);
-         if(c==1){
-            mp2.remove(t);
-         }
-         else{
-            mp2.put(t,mp2.getOrDefault(t,0)-1);
-         }
-                    mp2.put(b[index],mp2.getOrDefault(b[index],0)+1); 
-  
+        int oldVal = b[index];
+        int newVal = oldVal + val;
+
+        // Update frequency map
+        freqB.put(oldVal, freqB.get(oldVal) - 1);
+        if (freqB.get(oldVal) == 0) freqB.remove(oldVal);
+
+        b[index] = newVal;
+        freqB.put(newVal, freqB.getOrDefault(newVal, 0) + 1);
     }
-    
+
     public int count(int tot) {
-        int c=0;
-        for(var s:mp.entrySet()){
-       int val=s.getKey();
-      
-       int t=tot-val;
-       if(mp2.containsKey(t))c+=mp.get(val)*mp2.get(t);
+        int count = 0;
+
+        for (Map.Entry<Integer, Integer> entry : freqA.entrySet()) {
+            int valA = entry.getKey();
+            int needed = tot - valA;
+
+            if (freqB.containsKey(needed)) {
+                count += entry.getValue() * freqB.get(needed);
+            }
         }
-    return c;
+
+        return count;
     }
 }
-
-/**
- * Your FindSumPairs object will be instantiated and called as such:
- * FindSumPairs obj = new FindSumPairs(nums1, nums2);
- * obj.add(index,val);
- * int param_2 = obj.count(tot);
- */
