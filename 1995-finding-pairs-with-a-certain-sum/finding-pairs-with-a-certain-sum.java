@@ -32,7 +32,7 @@ int a[],b[];
         int c=0;
         for(var s:mp.entrySet()){
        int val=s.getKey();
-       if(val>tot)break;
+      
        int t=tot-val;
        if(mp2.containsKey(t))c+=mp.get(val)*mp2.get(t);
         }
