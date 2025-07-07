@@ -1,28 +1,32 @@
+import java.util.*;
+
 class Solution {
     public int maxEvents(int[][] events) {
-        Arrays.sort(events, (a, b) -> a[1] - b[1]);
+        Arrays.sort(events, (a, b) -> a[1] - b[1]); // endDay ఆధారంగా sort
 
-        int max = 0;
-        for (var s : events) {
-            max = Math.max(max, s[1]);
-        }
-    TreeSet<Integer> st=new TreeSet<>();
-        for(int i=1;i<=max;i++){
-st.add(i);
+        TreeSet<Integer> availableDays = new TreeSet<>();
+        int maxDay = 0;
+        for (int[] event : events) {
+            maxDay = Math.max(maxDay, event[1]);
         }
 
-        int c = 0;
-        for (var s : events) {
-            int frst = s[0];
-            int last = s[1];
-Integer x=st.ceiling(frst);
-if(x!=null&&x<=last){
-    c++;
-    st.remove(x);
+        // అందుబాటులో ఉన్న అన్ని రోజులు add చేయండి
+        for (int i = 1; i <= maxDay; i++) {
+            availableDays.add(i);
+        }
 
-}
+        int count = 0;
+        for (int[] event : events) {
+            int start = event[0];
+            int end = event[1];
+
+            Integer d = availableDays.ceiling(start); // start నుండి మొదలుపెట్టి ఖాళీ రోజు
+            if (d != null && d <= end) {
+                count++;
+                availableDays.remove(d);
             }
-        
-        return c;
+        }
+
+        return count;
     }
 }
