@@ -1,0 +1,1 @@
+select e.name as 'Employee' from Employee as e,Employee as e2 where e.managerId=e2.id and e.salary>e2.salary;
